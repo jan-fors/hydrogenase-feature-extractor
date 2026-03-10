@@ -2,6 +2,7 @@
 example/*
 out/*
 */__pycache__/*
+*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

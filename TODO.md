@@ -1,0 +1,3 @@
+- [X] Add cofactor sum formula to output
+- [ ] distances
+- [ ] Tunnel Calculations! -> do pycaver first

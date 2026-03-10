@@ -11,3 +11,17 @@ ACTIVE_SITE_ATOMS = [
 FES_ATOMS = [
     "FE", "S", "O" # O just in degraded clusters
 ]
+
+RESULT_TABLE_NAME = "results_table"
+
+RESULT_TABLE_COLUMNS = [
+    "input_path",
+    "active_site_res_name",
+    "active_site_formula",
+    "proximal_res_name",
+    "proximal_formula",
+    "medial_res_name",
+    "medial_formula",
+    "distal_res_name",
+    "distal_formula"
+]
