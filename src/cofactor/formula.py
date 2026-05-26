@@ -13,10 +13,16 @@ def get_formula(cofactor) -> str:
                     formula_dict[element] += 1
                 else:
                     formula_dict[element] = 1
-        formula = ""    
-        for element, count in formula_dict.items():
-            formula += f"{count if count > 1 else ''}{element};"
-        return formula[:-1]
+        formula_items = []
+
+        for element, count in sorted(formula_dict.items(), key=lambda x: x[0]):
+            if element == "O":
+                continue
+            formula_items.append(f"{count}{element}")
+
+        formula = "".join(formula_items)
+
+        return formula
     else:
         atoms = cofactor["atoms"]
         formula_dict = {}
@@ -26,7 +32,13 @@ def get_formula(cofactor) -> str:
                 formula_dict[element] += 1
             else:
                 formula_dict[element] = 1
-        formula = ""    
-        for element, count in formula_dict.items():
-            formula += f"{count if count > 1 else ''}{element};"
-        return formula[:-1] # remove the last ";"
+        formula_items = []
+
+        for element, count in sorted(formula_dict.items(), key=lambda x: x[0]):
+            if element == "O":
+                continue
+            formula_items.append(f"{count}{element}")
+
+        formula = "".join(formula_items)
+
+        return formula # remove the last ";"

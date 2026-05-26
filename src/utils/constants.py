@@ -1,7 +1,10 @@
 
 
 COFACTOR_BLACKLIST = [
-    "FE2", "MPD","CL", "IMD", "CSD", "OCS", "PSW", "CA", "SE7", "UOX","CO3", "SBY", "CL", "H2S", "HOH", "SO4", "MRD", "VK3", "DHI", "TRS", "IMD", "CSO", "PEG", "LMT", "PO4", "NA", "LI", "MLA", "CSX", "OXY", "H2S", "MQ9", "GOL", "KR", "MG" # remove as well?
+    "FEL", "DTN", "FE2", "MPD","CL", "IMD", "CSD", "OCS", "PSW", "CA", "SE7", 
+    "UOX","CO3", "SBY", "CL", "H2S", "HOH", "SO4", "MRD", "VK3", "DHI", "TRS", 
+    "IMD", "CSO", "PEG", "LMT", "PO4", "NA", "LI", "MLA", "CSX", "OXY", "H2S", 
+    "MQ9", "GOL", "KR", "MG", "BU3", "FAD", "ZN", "FES", "EDO", "144" # remove as well?
 ]
 
 ACTIVE_SITE_ATOMS = [
@@ -13,6 +16,7 @@ FES_ATOMS = [
 ]
 
 RESULT_TABLE_NAME = "results_table"
+RAW_RESULT_TABLE_NAME = "raw_results_table"
 
 RESULT_TABLE_COLUMNS = [
     "input_path",
@@ -25,3 +29,5 @@ RESULT_TABLE_COLUMNS = [
     "distal_res_name",
     "distal_formula"
 ]
+
+FINGERPRINT_RADIUS = 5.5

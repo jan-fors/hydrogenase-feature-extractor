@@ -3,6 +3,13 @@ example/*
 out/*
 */__pycache__/*
 *.csv
+*.ipynb
+
+*.tsv
+*.csv
+benchmark/*
+
+out/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

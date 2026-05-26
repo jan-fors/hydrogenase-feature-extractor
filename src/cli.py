@@ -11,7 +11,7 @@ def _verify_inputs(args):
 
 def _extract_args(args):
     """"""
-    return args.input_path, args.output, args.output_dir, args.results_table
+    return args.input_path, args.output, args.output_dir, args.results_tables
 
 def cli(args):
     """
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     parser.add_argument("input_path", help="Path to the input structure.")
     parser.add_argument("output", help="Name of the output.")
     parser.add_argument("--output_dir", "-o", default=".", help="Specify the output directory, default .")
-    parser.add_argument("--results_table", "-r", action="store_true", help="Whether to write the results to a table.")
+    parser.add_argument("--results_tables", "-r", action="store_true", help="Whether to write the results to a table.")
 
     args = parser.parse_args()
 
