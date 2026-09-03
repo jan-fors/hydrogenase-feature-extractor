@@ -7,7 +7,7 @@ name = "hydrogenase-feature-extractor"
 version = "0.0.1"
 description = "Script that allows to extract relevant information from NiFe Hydrogenases"                   
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 license = { file = "LICENSE" }
 authors = [
     { name = "Jan-Niklas Forster" }
