@@ -1,11 +1,10 @@
 import csv
-from src.utils.constants import (
+from hydrogenase_feature_extractor.utils.constants import (
     RESULT_TABLE_COLUMNS,
     RESULT_TABLE_NAME,
     RAW_RESULT_TABLE_NAME
 )
 import os
-
 
 def write_to_results_table(output_dir : str, name : str, results : dict):
     """

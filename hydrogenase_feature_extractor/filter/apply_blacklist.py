@@ -1,4 +1,4 @@
-from src.utils.constants import COFACTOR_BLACKLIST
+from hydrogenase_feature_extractor.utils.constants import COFACTOR_BLACKLIST
 
 
 def apply_blacklist(cofactors):

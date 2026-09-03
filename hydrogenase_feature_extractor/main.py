@@ -1,48 +1,41 @@
 import os
-from src.cofactor.extract_cofactors import extract_cofactors
-from src.filter.apply_blacklist import apply_blacklist
-from src.cofactor.sort import sort_into_active_site_and_fes_cluster
-from src.utils.geometric_center import calculate_geometric_center
-from src.cofactor.sort import sort_into_fes_order
-from src.cofactor.formula import get_formula
-from src.filter.overlap import remove_overlapping_cofactors
-from src.fingerprint.calculate_fingerprint import create_fingerprint
+from hydrogenase_feature_extractor.cofactor.extract_cofactors import extract_cofactors
+from hydrogenase_feature_extractor.filter.apply_blacklist import apply_blacklist
+from hydrogenase_feature_extractor.cofactor.sort import sort_into_active_site_and_fes_cluster
+from hydrogenase_feature_extractor.utils.geometric_center import calculate_geometric_center
+from hydrogenase_feature_extractor.cofactor.sort import sort_into_fes_order
+from hydrogenase_feature_extractor.cofactor.formula import get_formula
+from hydrogenase_feature_extractor.filter.overlap import remove_overlapping_cofactors
+from hydrogenase_feature_extractor.fingerprint.calculate_fingerprint import create_fingerprint
+from hydrogenase_feature_extractor.io.result_table import write_to_results_table, write_to_raw_results_table
+from hydrogenase_feature_extractor.pycaver.pycaver_handler import run_pycaver
+from hydrogenase_feature_extractor.pdb.pdb_handler import copy_without_cofactor
+from pathlib import Path
 
-def main(input_path : str, output : str, output_dir : str, results_table : bool):
+def main(input_path : str, output_dir : str, results_table : bool, tunnel : bool, fingerprint_radius : float, caver_params : dict):
     """
     """
-    # read the input structure
-    print(f"extracting {input_path}")
-
     # read cofactors
     cofactors = extract_cofactors(input_path)
    
     # apply blacklist
     cofactors = apply_blacklist(cofactors)
-    
-        
+            
     # classify hydrogenase specific cofactors -> proximal ...
     active_site, fes_cluster = sort_into_active_site_and_fes_cluster(cofactors)
     
-    #TODO add verbose function
-    if True:
-        print(f"Active site: {[cofactor['resname'] for cofactor in active_site]}")
-        print(f"FeS cluster: {[cofactor['resname'] for cofactor in fes_cluster]}")
-
-
     # check if there are overlapping fes clusters
     fes_cluster = remove_overlapping_cofactors(fes_cluster, 1.0)
 
+    # calculate geometric centers
     active_site_geometric_center = calculate_geometric_center(active_site, activesite=True)
-    
-    # calculate distances to active site
 
+    # calculate distances to active site
     sorted_fes_cluster = sort_into_fes_order(fes_cluster, active_site_geometric_center)
 
     # calculate aa fingerprints
-    #print(type(sorted_fes_cluster[0]), sorted_fes_cluster[0])
     for i in range(len(sorted_fes_cluster)):
-        F =  create_fingerprint(input_path, sorted_fes_cluster[i]["atoms"])
+        F =  create_fingerprint(input_path, sorted_fes_cluster[i]["atoms"], fingerprint_radius)
         sorted_fes_cluster[i]["fingerprint"] = F
 
     # standard format
@@ -53,20 +46,26 @@ def main(input_path : str, output : str, output_dir : str, results_table : bool)
     active_site_formula = get_formula(active_site)
     proximal["formula"] = get_formula(proximal)
     medial["formula"] = get_formula(medial)
-    distal["formula"] = get_formula(distal)
+    distal["formula"] = get_formula(distal)   
 
-    if True:
-        print(f"Proximal: {proximal['resname'] if proximal else 'None'} {proximal['formula'] if proximal else 'None'}")
-        print(f"F: {proximal['fingerprint']}")
-        print(f"Medial: {medial['resname'] if medial else 'None'} {medial['formula'] if medial else 'None'}")
-        print(f"F: {medial['fingerprint']}")
-        print(f"Distal: {distal['resname'] if distal else 'None'} {distal['formula'] if distal else 'None'}")    
-        print(f"F: {distal['fingerprint']}")
+    # calculate geometric centers
+    proximal_center = calculate_geometric_center([proximal], "proximal")
+    medial_center = calculate_geometric_center([medial], "medial")
+    distal_center = calculate_geometric_center([distal], "distal")
+
+    # pycaver
+    if tunnel:
+        # create structure without active site
+        active_site_res_ids = []
+        for i in active_site:
+            active_site_res_ids.append(i["id"])
+        caver_input_structure_path = output_dir / Path("caver.pdb")
+        copy_without_cofactor(input_path, active_site_res_ids, caver_input_structure_path)
+
+        run_pycaver(caver_input_structure_path, caver_params, active_site_geometric_center[1], output_dir)
 
     # write output
     if results_table:
-        from src.io.result_table import write_to_results_table, write_to_raw_results_table
-
         raw_results = {
             "active_site_res_name": ";".join([cofactor["resname"] for cofactor in active_site]),
             "active_site_formula": active_site_formula,
@@ -99,4 +98,4 @@ def main(input_path : str, output : str, output_dir : str, results_table : bool)
     
     # TODO write output 
 
-    print(f"{input_path} -> {output_dir}/{output} Done.")
+    #print(f"{input_path} -> {output_dir}/{output} Done.")

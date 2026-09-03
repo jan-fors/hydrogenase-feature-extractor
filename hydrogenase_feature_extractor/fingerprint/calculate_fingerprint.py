@@ -1,11 +1,8 @@
 from pathlib import Path
-from src.utils.constants import (
-    FINGERPRINT_RADIUS
-)
 from Bio.PDB import PDBParser, NeighborSearch
 import numpy as np
 
-def create_fingerprint(structure_path : Path, atoms : tuple) -> np.array:
+def create_fingerprint(structure_path : Path, atoms : tuple, fingerprint_radius : float) -> np.array:
     """
     """
     # calculate center
@@ -30,7 +27,7 @@ def create_fingerprint(structure_path : Path, atoms : tuple) -> np.array:
     atoms = list(structure.get_atoms())
     ns = NeighborSearch(atoms)
 
-    near_atoms = ns.search(point, FINGERPRINT_RADIUS)  
+    near_atoms = ns.search(point, fingerprint_radius)  
 
     residues = {a.get_parent() for a in near_atoms}
 

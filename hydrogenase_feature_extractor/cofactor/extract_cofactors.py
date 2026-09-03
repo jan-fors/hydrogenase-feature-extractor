@@ -26,20 +26,15 @@ def extract_cofactors(pdb_file):
                 # 'W' would be water, which we usually want to skip
                 res_id = residue.get_id()
 
-                
-                
+                            
                 if res_id[0].startswith('H_'):
-#                    print(res_id)
+
                     res_name = residue.get_resname()
                     # Extract atom information as a tuple (name, element, coord)
                     atoms = tuple(
                         (atom.get_name(), atom.element, atom.get_coord()) 
                         for atom in residue
                     )
-                    # print(residue.get_atoms())
-                    
-                    # for atom in residue.get_atoms():
-                    #     print(atom.element)
 
                     cofactors.append({
                         "resname": res_name,
@@ -49,6 +44,3 @@ def extract_cofactors(pdb_file):
                     })
                     
     return cofactors
-
-# Usage
-# data = extract_cofactors("your_file.pdb")

@@ -28,3 +28,8 @@ def _calculate_center(M : np.ndarray) -> tuple[float,float,float]:
     center = np.mean(M, axis=0)
 
     return float(center[0]), float(center[1]), float(center[2])
+
+def calculate_active_site_center():
+    """
+    """
+    pass
