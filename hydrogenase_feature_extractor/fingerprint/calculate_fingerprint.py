@@ -1,34 +1,19 @@
 from pathlib import Path
 from Bio.PDB import PDBParser, NeighborSearch
 import numpy as np
+from hydrogenase_feature_extractor.pdb.pdb_handler import get_structure
 
-def create_fingerprint(structure_path : Path, atoms : tuple, fingerprint_radius : float) -> np.array:
+def count_aminoacids(
+        structure_path, 
+        point, 
+        f_radius
+) -> np.array:
     """
     """
-    # calculate center
-    x = 0.0
-    y = 0.0
-    z = 0.0
-    
-    for atom in atoms:
-        x += atom[2][0]
-        y += atom[2][1]
-        z += atom[2][2]
-
-    point = (
-        x/len(atoms),
-        y/len(atoms),
-        z/len(atoms)
-    )
-
-    parser = PDBParser(QUIET=True)
-    structure = parser.get_structure("prot", structure_path)
-
+    structure = get_structure(structure_path)
     atoms = list(structure.get_atoms())
     ns = NeighborSearch(atoms)
-
-    near_atoms = ns.search(point, fingerprint_radius)  
-
+    near_atoms = ns.search(point, f_radius)
     residues = {a.get_parent() for a in near_atoms}
 
     F = {
@@ -51,7 +36,7 @@ def create_fingerprint(structure_path : Path, atoms : tuple, fingerprint_radius 
         "THR": 0,
         "TRP": 0,
         "TYR": 0,
-        "VAL": 0
+        "VAL": 0,
     }
 
     for r in residues:

@@ -1,5 +1,7 @@
 from pathlib import Path
 import subprocess
+import os
+import json
 
 def run_pycaver(
     input_structure: Path, caver_params: dict, starting_point: tuple, output_dir: Path
@@ -19,5 +21,21 @@ def run_pycaver(
     result = subprocess.run(" ".join(cmd), shell=True)
 
 
-def check_results():
-    pass
+def read_results(output_dir : Path) -> dict:
+    """
+    """
+    data_path = output_dir / Path("caver") / Path("meta-tunnel") / Path("summary.json")
+
+    with open(data_path, "r") as f:
+        data = json.load(f)
+
+    return data
+
+
+def caver_successful(output_dir : Path)-> bool:
+    """
+    """
+    if os.path.exists(output_dir / Path("caver") / Path("meta-tunnel") / Path("summary.json")):
+        return True
+    else:
+        return False

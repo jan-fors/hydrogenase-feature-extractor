@@ -1,4 +1,6 @@
 from Bio.PDB import PDBParser
+from hydrogenase_feature_extractor.filter.apply_blacklist import apply_blacklist
+from hydrogenase_feature_extractor.cofactor.sort import sort_into_active_site_and_fes_cluster
 
 def extract_cofactors(pdb_file):
     parser = PDBParser(QUIET=True)
@@ -44,3 +46,21 @@ def extract_cofactors(pdb_file):
                     })
                     
     return cofactors
+
+
+def get_active_site_ids(pdb_file) -> list:
+    """
+    """
+    cofactors = extract_cofactors(pdb_file)
+
+    # apply blacklist
+    cofactors = apply_blacklist(cofactors)
+            
+    # classify hydrogenase specific cofactors -> proximal ...
+    active_site, fes_cluster = sort_into_active_site_and_fes_cluster(cofactors)
+
+    active_site_res_ids = []
+    for i in active_site:
+        active_site_res_ids.append(i["id"])
+
+    return active_site_res_ids

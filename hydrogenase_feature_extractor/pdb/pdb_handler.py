@@ -21,3 +21,12 @@ def copy_without_cofactor(input_strucutre : Path, cofactor_res_ids : List, outpu
     io.save(str(output_path), select=_RemoveCofactor())
 
     return output_path
+
+
+def get_structure(structure_path : Path):
+    """
+    """
+    parser = PDBParser(QUIET=True)
+    structure = parser.get_structure("s", str(structure_path))
+
+    return structure

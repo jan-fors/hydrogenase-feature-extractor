@@ -1,7 +1,8 @@
 
 
 def get_formula(cofactor) -> str:
-    """"""
+    """
+    """
     if type(cofactor) == list:
         # if it's a list of cofactors, we need to sum up the formulas
         formula_dict = {}
