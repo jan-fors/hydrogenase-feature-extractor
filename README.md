@@ -10,12 +10,12 @@ Install directly from GitHub via pip:
 conda create -n hfe python=3.12 -y
 conda activate hfe
 
-pip install git+https://github.com/solarflip/hydrogenase-feature-extractor
+pip install git+https://github.com/jan-fors/hydrogenase-feature-extractor
 ```
 
 Or clone and install from source (useful for development):
 ```bash
-git clone https://github.com/solarflip/hydrogenase-feature-extractor
+git clone https://github.com/jan-fors/hydrogenase-feature-extractor
 cd tool-name
 pip install -e .
 ```
