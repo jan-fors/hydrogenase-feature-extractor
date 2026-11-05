@@ -5,6 +5,8 @@ from pathlib import Path
 from hydrogenase_feature_extractor.cofactor.cofactor_handler import create_cofactor_dict
 from hydrogenase_feature_extractor.cofactor.extract_cofactors import get_active_site_ids
 from hydrogenase_feature_extractor.io.output_handler import write_output_file
+from hydrogenase_feature_extractor.io.result_table import write_to_results_table
+from pprint import pprint
 
 def main(input_path : str, output_dir : str, results_table : bool, tunnel : bool, fingerprint_radius : float, caver_params : dict):
     """
@@ -34,9 +36,26 @@ def main(input_path : str, output_dir : str, results_table : bool, tunnel : bool
             caver_results = read_results(output_dir)
             cof_data = cof_data | caver_results
 
+    pprint(cof_data["proximal"])
+
     # write output
     if results_table:
-        pass
+        results_table_data = {
+            "input_path": input_path,
+            "active_site_formula": cof_data["active_site"]["formula"],
+            "active_site_res_name": None,
+            "active_site_fingerprint": ",".join([str(x) for x in cof_data["active_site"]["fingerprint"]]),
+            "proximal_res_name": None,
+            "proximal_formula": cof_data["proximal"]["formula"],
+            "proximal_fingerprint": ",".join([str(x) for x in cof_data["proximal"]["fingerprint"]]),
+            "medial_res_name": None,
+            "medial_formula": cof_data["medial"]["formula"],
+            "medial_fingerprint": ",".join([str(x) for x in cof_data["medial"]["fingerprint"]]),
+            "distal_res_name":None,
+            "distal_formula": cof_data["distal"]["formula"],
+            "distal_fingerprint": ",".join([str(x) for x in cof_data["distal"]["fingerprint"]]),
+        }
+        write_to_results_table(output_dir.parent, input_path, results_table_data)
 
     write_output_file(output_dir, cof_data)
     

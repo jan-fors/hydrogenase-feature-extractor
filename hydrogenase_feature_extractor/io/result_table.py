@@ -9,6 +9,7 @@ import os
 def write_to_results_table(output_dir : str, name : str, results : dict):
     """
     """
+    print(RESULT_TABLE_COLUMNS)
     with open(f"{output_dir}/{RESULT_TABLE_NAME}.tsv", "a", newline="") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=RESULT_TABLE_COLUMNS ,delimiter="\t", )
 

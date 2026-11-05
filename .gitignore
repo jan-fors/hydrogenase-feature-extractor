@@ -4,6 +4,7 @@ out/*
 */__pycache__/*
 *.csv
 *.ipynb
+summary_plot.py
 
 *.tsv
 *.csv

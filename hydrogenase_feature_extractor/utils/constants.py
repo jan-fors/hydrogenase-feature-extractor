@@ -22,12 +22,16 @@ RESULT_TABLE_COLUMNS = [
     "input_path",
     "active_site_res_name",
     "active_site_formula",
+    "active_site_fingerprint",
     "proximal_res_name",
     "proximal_formula",
+    "proximal_fingerprint",
     "medial_res_name",
     "medial_formula",
+    "medial_fingerprint",
     "distal_res_name",
-    "distal_formula"
+    "distal_formula",
+    "distal_fingerprint"
 ]
 
 FINGERPRINT_RADIUS = 6.0
